@@ -15,34 +15,39 @@ const InputNumber = () => {
     setInputValue(e.target.value);
 
     if (inputValue === "" || inputValue === 0) {
-      Notify.warning("Input field can`t be empty");
+      Notify.warning("Input field can't be empty");
       return;
     }
 
-    if (inputValue <= 1) {
+    const parsedValue = parseFloat(inputValue);
+    if (!Number.isInteger(parsedValue)) {
+      Notify.failure("Number must be an integer.");
+      return;
+    }
+
+    if (parsedValue <= 1) {
       Notify.failure("Number must be more than 1");
       return;
     }
 
-    if (inputValue <= 3) {
-      Notify.success(`${inputValue} is a prime number, congratulations!)`);
+    if (parsedValue <= 3) {
+      Notify.success(`${parsedValue} is a prime number, congratulations!)`);
       return;
     }
 
-    if (inputValue % 2 === 0 || inputValue % 3 === 0) {
-      Notify.info(`Sorry, ${inputValue} is a composite number`);
+    if (parsedValue % 2 === 0 || parsedValue % 3 === 0) {
+      Notify.info(`Sorry, ${parsedValue} is a composite number`);
       return;
     }
 
-    for (let i = 5; i * i <= inputValue; i += 6) {
-      if (inputValue % i === 0 || inputValue % (i + 2) === 0) {
-        Notify.info(`Sorry, ${inputValue} is a composite number`);
+    for (let i = 5; i * i <= parsedValue; i += 6) {
+      if (parsedValue % i === 0 || parsedValue % (i + 2) === 0) {
+        Notify.info(`Sorry, ${parsedValue} is a composite number`);
         return;
       }
     }
 
-    Notify.success(`${inputValue} is a prime number, congratulations!)`);
-
+    Notify.success(`${parsedValue} is a prime number, congratulations!)`);
     e.target.value = "";
   };
 
